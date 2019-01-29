@@ -77,7 +77,6 @@ RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.m
     && echo '"\e[5~": history-search-backward' >> /etc/inputrc \
     && echo '"\e[6~": history-search-backward' >> /etc/inputrc
 
-
 # Install R downloaded_packages
 ########
 COPY ./pkg_install.R /usr/local/pkg_install.R
@@ -85,3 +84,20 @@ RUN Rscript /usr/local/pkg_install.R \
     && chmod 777 -R /usr/local/lib/R/ \
     && chmod 777 -R /usr/lib/R/ \
     && chmod 777 -R /usr/share/R/
+
+
+
+
+
+## Create user training
+########
+RUN useradd -r -s /bin/bash -U -m -d /home/training -p '' training
+
+# Setup the user envirenment
+########
+ENV HOME /home/training
+RUN usermod -aG sudo,audio,video training \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+WORKDIR $HOME
+USER training
