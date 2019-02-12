@@ -85,9 +85,18 @@ RUN Rscript /usr/local/pkg_install.R \
     && chmod 777 -R /usr/lib/R/ \
     && chmod 777 -R /usr/share/R/
 
-
-
-
+# Copy binary files to the bin file
+########
+COPY ./testfc-edgeR.R /usr/local/bin/testfc-edgeR.R
+COPY ./make-otutable.sh /usr/local/bin/make-otutable.sh
+COPY ./make-all-otumat.sh /usr/local/bin/make-all-otumat.sh
+COPY ./qualfilter /usr/local/bin/qualfilter
+COPY ./qualfilterfq /usr/local/bin/qualfilterfq
+COPY ./mapseq /usr/local/bin/mapseq
+RUN chmod 777 /usr/local/bin/testfc-edgeR.R \
+    && chmod 777 /usr/local/bin/make-*  \
+    && chmod 777 /usr/local/bin/qualfilter* \
+    && chmod 777 /usr/local/bin/mapseq
 
 ## Create user training
 ########
