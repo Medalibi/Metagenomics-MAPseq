@@ -92,11 +92,17 @@ COPY ./make-otutable.sh /usr/local/bin/make-otutable.sh
 COPY ./make-all-otumat.sh /usr/local/bin/make-all-otumat.sh
 COPY ./qualfilter /usr/local/bin/qualfilter
 COPY ./qualfilterfq /usr/local/bin/qualfilterfq
-COPY ./mapseq /usr/local/bin/mapseq
 RUN chmod 777 /usr/local/bin/testfc-edgeR.R \
     && chmod 777 /usr/local/bin/make-*  \
-    && chmod 777 /usr/local/bin/qualfilter* \
-    && chmod 777 /usr/local/bin/mapseq
+    && chmod 777 /usr/local/bin/qualfilter* 
+
+# Get the MAPseq DB
+########
+COPY ./mapseq_databases.tar.gz /usr/local/mapseq_databases.tar.gz
+RUN tar xvf /usr/local/mapseq_databases.tar.gz -C /usr/local/ \
+    && chmod 777 -R /usr/local/mapseq-1.2.3-linux \
+    && ln -s /usr/local/mapseq-1.2.3-linux/* /usr/local/bin/ \
+    && rm /usr/local/mapseq_databases.tar.gz
 
 ## Create user training
 ########
